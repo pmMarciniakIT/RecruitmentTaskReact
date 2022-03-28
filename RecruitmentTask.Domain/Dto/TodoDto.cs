@@ -1,11 +1,4 @@
 ﻿namespace RecruitmentTask.Domain.Dto
 {
-    public class TodoDto
-    {
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime DeadlineDate { get; set; }
-    }
+    public record TodoDto(Guid Id, string Title, string Description, string CreatedDate, string DeadlineDate, bool IsExpired);
 }

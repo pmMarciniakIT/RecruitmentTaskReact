@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecruitmentTask.DataAccess"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0BD8B36E-DEE5-4233-8B70-4146C702FCF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecruitmentTask.xUnitTests", "RecruitmentTask.xUnitTests\RecruitmentTask.xUnitTests.csproj", "{277791C4-52EE-4263-A335-B8A139FC28B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,9 +42,16 @@ Global
 		{7C4688AE-79CA-4716-BC58-CC768144FDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C4688AE-79CA-4716-BC58-CC768144FDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C4688AE-79CA-4716-BC58-CC768144FDEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{277791C4-52EE-4263-A335-B8A139FC28B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{277791C4-52EE-4263-A335-B8A139FC28B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{277791C4-52EE-4263-A335-B8A139FC28B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{277791C4-52EE-4263-A335-B8A139FC28B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{277791C4-52EE-4263-A335-B8A139FC28B6} = {0BD8B36E-DEE5-4233-8B70-4146C702FCF0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E270CDF-8364-46AC-A258-57CDC325198D}

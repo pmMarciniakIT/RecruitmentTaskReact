@@ -1,21 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
-using RecruitmentTask.Domain.Entities;
+using RecruitmentTask.Domain.Dto;
 using RecruitmentTask.Domain.Services;
 using RecruitmentTask.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// configure services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.ConfigureServices();
 builder.Services.ConfigureDatabase();
+builder.Services.ConfigureCORS();
 
 var app = builder.Build();
 
+// use configuration
 app.UseSwagger();
 app.ConfigureSwaggerUI();
 app.UseHttpsRedirection();
+app.UseCors("Default");
 
+
+// minimal endpoints
 app.MapGet("/getAllTodos", async ([FromServices] ITodoService service)
     => await service.GetAllTodos()).WithTags("Todo Endpoints");
 
@@ -47,7 +53,7 @@ app.MapGet("/getTodoById", async ([FromServices] ITodoService service, Guid id) 
     }
 }).WithTags("Todo Endpoints");
 
-app.MapPost("/createTodo", async ([FromServices] ITodoService service, Todo request) =>
+app.MapPost("/createTodo", async ([FromServices] ITodoService service, TodoRequestDto request) =>
 {
     try
     {
@@ -61,7 +67,7 @@ app.MapPost("/createTodo", async ([FromServices] ITodoService service, Todo requ
     }
 }).WithTags("Todo Endpoints");
 
-app.MapPut("/updateTodo", async ([FromServices] ITodoService service, Todo request) =>
+app.MapPut("/updateTodo", async ([FromServices] ITodoService service, TodoRequestDto request) =>
 {
     try
     {
@@ -75,7 +81,7 @@ app.MapPut("/updateTodo", async ([FromServices] ITodoService service, Todo reque
     }
 }).WithTags("Todo Endpoints");
 
-app.MapDelete("/deleteTodo", async ([FromServices] ITodoService service, Guid id) =>
+app.MapDelete("/deleteTodo/{id}", async ([FromServices] ITodoService service, Guid id) =>
 {
     try
     {

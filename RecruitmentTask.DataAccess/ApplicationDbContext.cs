@@ -10,9 +10,9 @@ namespace RecruitmentTask.DataAccess
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseInMemoryDatabase("AppDatabase");
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Todo[] seeds = new Todo[100];
+            Todo[] seeds = new Todo[10];
 
-            for (int i = 1; i <= 100; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 var randomNumber = new Random(i);
 
@@ -21,8 +21,8 @@ namespace RecruitmentTask.DataAccess
                     Id = Guid.NewGuid(),
                     Title = $"TestTile_{i}",
                     Description = $"TestDescription_{i}",
-                    DeadlineDate = DateTime.Now.AddDays(randomNumber.Next(0, 5)),
-                    CreatedDate = DateTime.Now.AddDays(-3)
+                    DeadlineDate = DateTime.UtcNow.AddDays(randomNumber.Next(-5, 5)),
+                    CreatedDate = DateTime.UtcNow.AddDays(-6)
                 };
             }
 

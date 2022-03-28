@@ -14,60 +14,73 @@ namespace RecruitmentTask.Infrastructure.Services
             _repository = repository;
         }
 
-        public async Task<Guid> CreateTodo(Todo todo)
-            => await _repository.CreateAsync(todo);
+        public async Task<Guid> CreateTodo(TodoRequestDto todo)
+            => await _repository.CreateAsync(new Todo
+            {
+                Id = new Guid(),
+                CreatedDate = DateTime.UtcNow,
+                Title = todo.Title,
+                Description = todo.Description,
+                DeadlineDate = DateTime.Parse(todo.DeadlineDate)
+            });
 
         public async Task<bool> DeleteTodo(Guid id)
             => await _repository.DeleteAsync(id);
 
         public async Task<IEnumerable<TodoDto>> FindExpiredTodos()
             => from q in (await _repository.FindExpiredTodo())
-               select new TodoDto
-               {
-                   Id = q.Id,
-                   DeadlineDate = q.DeadlineDate,
-                   CreatedDate = q.CreatedDate,
-                   Description = q.Description,
-                   Title = q.Title
-               };
+               select new TodoDto(
+                    q.Id,
+                    q.Title,
+                    q.Description,
+                    q.CreatedDate.ToString("yyyy-MM-dd"),
+                    q.DeadlineDate.ToString("yyyy-MM-dd"),
+                    true
+                   );
 
         public async Task<IEnumerable<TodoDto>> GetAllTodos()
             => from q in (await _repository.GetAsync())
-               select new TodoDto
-               {
-                   Id = q.Id,
-                   DeadlineDate = q.DeadlineDate,
-                   CreatedDate = q.CreatedDate,
-                   Description = q.Description,
-                   Title = q.Title
-               };
+               select new TodoDto(
+                    q.Id,
+                    q.Title,
+                    q.Description,
+                    q.CreatedDate.ToString("yyyy-MM-dd"),
+                    q.DeadlineDate.ToString("yyyy-MM-dd"),
+                    DateTime.UtcNow > q.DeadlineDate
+                   );
 
         public async Task<TodoDto> GetTodoById(Guid id)
         {
             var result = await _repository.GetByIdAsync(id);
 
-            return new TodoDto
-            {
-                Id = result.Id,
-                CreatedDate = result.CreatedDate,
-                Description = result.Description,
-                DeadlineDate = result.DeadlineDate,
-                Title = result.Title
-            };
+            return new TodoDto(
+                    result.Id,
+                    result.Title,
+                    result.Description,
+                    result.CreatedDate.ToString("yyyy-MM-dd"),
+                    result.DeadlineDate.ToString("yyyy-MM-dd"),
+                    DateTime.UtcNow > result.DeadlineDate
+                   );
         }
 
-        public async Task<TodoDto> UpdateTodo(Todo todo)
+        public async Task<TodoDto> UpdateTodo(TodoRequestDto todo)
         {
-            var result = await _repository.UpdateAsync(todo);
+            var entity = await _repository.GetByIdAsync(Guid.Parse(todo.Id));
 
-            return new TodoDto
-            {
-                Id = result.Id,
-                CreatedDate = result.CreatedDate,
-                Description = result.Description,
-                DeadlineDate = result.DeadlineDate,
-                Title = result.Title
-            };
+            entity.Description = todo.Description;
+            entity.DeadlineDate = DateTime.Parse(todo.DeadlineDate);
+            entity.Title = todo.Title;
+
+            var result = await _repository.UpdateAsync(entity);
+
+            return new TodoDto(
+                    result.Id,
+                    result.Title,
+                    result.Description,
+                    result.CreatedDate.ToString("yyyy-MM-dd"),
+                    result.DeadlineDate.ToString("yyyy-MM-dd"),
+                    DateTime.UtcNow > result.DeadlineDate
+                   );
         }
     }
 }
