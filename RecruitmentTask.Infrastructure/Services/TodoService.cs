@@ -21,7 +21,7 @@ namespace RecruitmentTask.Infrastructure.Services
                 CreatedDate = DateTime.UtcNow,
                 Title = todo.Title,
                 Description = todo.Description,
-                DeadlineDate = DateTime.Parse(todo.DeadlineDate)
+                DeadlineDate = todo.DeadlineDate
             });
 
         public async Task<bool> DeleteTodo(Guid id)
@@ -63,12 +63,12 @@ namespace RecruitmentTask.Infrastructure.Services
                    );
         }
 
-        public async Task<TodoDto> UpdateTodo(TodoRequestDto todo)
+        public async Task<TodoDto> UpdateTodo(TodoRequestDto todo, Guid id)
         {
-            var entity = await _repository.GetByIdAsync(Guid.Parse(todo.Id));
+            var entity = await _repository.GetByIdAsync(id);
 
             entity.Description = todo.Description;
-            entity.DeadlineDate = DateTime.Parse(todo.DeadlineDate);
+            entity.DeadlineDate = todo.DeadlineDate;
             entity.Title = todo.Title;
 
             var result = await _repository.UpdateAsync(entity);

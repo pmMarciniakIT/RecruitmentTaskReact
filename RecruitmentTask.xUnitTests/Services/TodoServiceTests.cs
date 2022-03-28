@@ -32,7 +32,7 @@ namespace RecruitmentTask.xUnitTests.Services
         {
             // Arrange
             var guid = new Guid("72ab8981-21cd-4e91-b6e7-7c8bf14ee52f");
-            var sampleTodoRequest = new TodoRequestDto(string.Empty, "TestTitle", "TestDescription", "2022-03-28", string.Empty);
+            var sampleTodoRequest = new TodoRequestDto( "TestTitle", "TestDescription", DateTime.UtcNow);
 
             _mockTodoService.Setup(m => m.CreateTodo(sampleTodoRequest))
                 .Returns(Task.FromResult(guid));

@@ -67,11 +67,11 @@ app.MapPost("/createTodo", async ([FromServices] ITodoService service, TodoReque
     }
 }).WithTags("Todo Endpoints");
 
-app.MapPut("/updateTodo", async ([FromServices] ITodoService service, TodoRequestDto request) =>
+app.MapPut("/updateTodo/{id}", async ([FromServices] ITodoService service, TodoRequestDto request, Guid id) =>
 {
     try
     {
-        var response = await service.UpdateTodo(request);
+        var response = await service.UpdateTodo(request, id);
 
         return Results.Ok(response);
     }
